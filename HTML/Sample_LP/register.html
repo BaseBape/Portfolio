@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>無料登録 | サンプルLP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #0f0f12;
+      --color-surface: #1a1a1f;
+      --color-accent: #6366f1;
+      --color-accent-hover: #818cf8;
+      --color-text: #f4f4f5;
+      --color-text-muted: #a1a1aa;
+      --color-border: #27272a;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span { color: var(--color-accent); }
+
+    nav a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 28px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--color-text); }
+
+    main {
+      padding: 80px 0 100px;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 56px 40px;
+    }
+
+    .cta-box h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta-box > p {
+      color: var(--color-text-muted);
+      margin-bottom: 28px;
+    }
+
+    .register-form { text-align: left; }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .form-group input::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
+    .form-submit { margin-top: 28px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      background: var(--color-accent);
+      color: white;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .form-note {
+      margin-top: 20px;
+      padding: 14px 18px;
+      background: rgba(161, 161, 170, 0.1);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      nav a { margin-left: 16px; }
+      main { padding: 48px 0 64px; }
+      .cta-box { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo">Sample<span>LP</span></div>
+      <nav>
+        <a href="index.html">トップ</a>
+        <a href="contact.html">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="cta-box">
+        <h1>無料登録</h1>
+        <p>以下の項目をご入力ください。（このページではデータの保存は行いません）</p>
+
+        <form class="register-form" id="registerForm" action="#" method="post">
+          <div class="form-group">
+            <label for="name">お名前 <span style="color: var(--color-accent);">*</span></label>
+            <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+          </div>
+          <div class="form-group">
+            <label for="email">メールアドレス <span style="color: var(--color-accent);">*</span></label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="password">パスワード <span style="color: var(--color-accent);">*</span></label>
+            <input type="password" id="password" name="password" placeholder="8文字以上" required minlength="8">
+          </div>
+          <div class="form-group">
+            <label for="company">会社名（任意）</label>
+            <input type="text" id="company" name="company" placeholder="株式会社サンプル">
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn">登録する</button>
+          </div>
+        </form>
+
+        <p class="form-note">※ 入力内容は保存されません。実際の登録処理は行いません。</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Sample LP. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      // データの保存は行わない（入力項目のみ表示用）
+      alert('入力を受け付けました。（このページではデータは保存されません）');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安全・安心 | サンプルLP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #0f0f12;
+      --color-surface: #1a1a1f;
+      --color-accent: #6366f1;
+      --color-accent-hover: #818cf8;
+      --color-text: #f4f4f5;
+      --color-text-muted: #a1a1aa;
+      --color-border: #27272a;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--color-accent); }
+    nav a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 28px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--color-text); }
+    main { padding: 56px 0 100px; }
+    .detail-hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .detail-hero .icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      margin: 0 auto 24px;
+    }
+    .detail-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .detail-hero p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+    .detail-content h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 32px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .detail-content p {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .detail-content ul {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      margin: 12px 0 24px 24px;
+      line-height: 1.8;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--color-accent-hover); }
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+    footer p { color: var(--color-text-muted); font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">Sample<span>LP</span></div>
+      <nav>
+        <a href="index.html">トップ</a>
+        <a href="index.html#features">特徴</a>
+        <a href="register.html">無料登録</a>
+        <a href="contact.html">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <div class="detail-hero">
+        <div class="icon">🔒</div>
+        <h1>安全・安心</h1>
+        <p>業界標準のセキュリティで、大切なデータをしっかり守ります</p>
+      </div>
+      <article class="detail-content">
+        <h2>セキュリティへの取り組み</h2>
+        <p>お客様のデータは私たちにとって最も重要な資産です。通信の暗号化、アクセス制御、定期的な監査など、業界で推奨される対策を導入し、安心してご利用いただける環境を整えています。</p>
+        <h2>主な対策</h2>
+        <ul>
+          <li>通信はすべて TLS で暗号化（HTTPS）</li>
+          <li>ログイン時の二要素認証（2FA）オプション対応</li>
+          <li>データのバックアップと冗長化により、障害時も復旧可能</li>
+        </ul>
+        <h2>お客様の声</h2>
+        <p>「機密性の高い情報を扱うためセキュリティが心配でしたが、説明を聞き、実際に利用してみて安心して任せられると感じています。」</p>
+        <a href="index.html#features" class="back-link">← 3つの特徴一覧に戻る</a>
+      </article>
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Sample LP. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

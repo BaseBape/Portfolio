@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>サンプルランディングページ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #0f0f12;
+      --color-surface: #1a1a1f;
+      --color-accent: #6366f1;
+      --color-accent-hover: #818cf8;
+      --color-text: #f4f4f5;
+      --color-text-muted: #a1a1aa;
+      --color-border: #27272a;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: var(--color-accent);
+    }
+
+    nav a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 28px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--color-text);
+    }
+
+    .hero {
+      padding: 80px 0 100px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 8px 16px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(135deg, #a5b4fc, #c4b5fd);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      color: var(--color-text-muted);
+      font-size: 1.125rem;
+      max-width: 520px;
+      margin: 0 auto 40px;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--color-text-muted);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .features {
+      padding: 100px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-title h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .feature-card .icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--color-text-muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 56px 40px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .cta-box h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta-box p {
+      color: var(--color-text-muted);
+      margin-bottom: 28px;
+    }
+
+    /* 問い合わせフォーム */
+    .contact-form {
+      text-align: left;
+      margin-top: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      color: var(--color-text);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--color-text-muted);
+      opacity: 0.7;
+    }
+
+    .form-submit {
+      margin-top: 28px;
+    }
+
+    .form-submit .btn {
+      width: 100%;
+    }
+
+    .flash {
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+
+    .flash-error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+    }
+
+    .flash-success {
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: #86efac;
+    }
+
+    .flash ul {
+      margin: 0;
+      padding-left: 1.2em;
+    }
+
+    .flash li {
+      margin: 4px 0;
+    }
+
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--color-text-muted);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 640px) {
+      nav a {
+        margin-left: 16px;
+      }
+
+      .hero {
+        padding: 56px 0 72px;
+      }
+
+      .cta-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="logo">Sample<span>LP</span></div>
+      <nav>
+        <a href="#features">特徴</a>
+        <a href="#cta">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero-badge">新サービス登場</p>
+        <h1>あなたのビジネスを<br><span>次のステージへ</span></h1>
+        <p>シンプルで強力なツールで、効率と成果を最大化。今すぐ始めましょう。</p>
+        <div class="cta-group">
+          <a href="#cta" class="btn btn-primary">無料で始める</a>
+          <a href="#features" class="btn btn-secondary">詳しく見る</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-title">
+          <h2>3つの特徴</h2>
+          <p>選ばれる理由があります</p>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="icon">⚡</div>
+            <h3>高速・軽量</h3>
+            <p>ストレスフリーな速度で、毎日の作業がスムーズに。待ち時間を削減します。</p>
+          </article>
+          <article class="feature-card">
+            <div class="icon">🔒</div>
+            <h3>安全・安心</h3>
+            <p>業界標準のセキュリティで、大切なデータをしっかり守ります。</p>
+          </article>
+          <article class="feature-card">
+            <div class="icon">🎯</div>
+            <h3>シンプル設計</h3>
+            <p>直感的なUIで、誰でもすぐに使いこなせます。学習コストを削減。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" id="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2>お問い合わせ</h2>
+          <p>ご質問・ご要望はこちらからお送りください。</p>
+
+          <% if flash %>
+            <div class="flash flash-<%= flash[:type] %>">
+              <ul>
+                <% flash[:messages].each do |msg| %>
+                  <li><%= h(msg) %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <form class="contact-form" action="/contact" method="post">
+            <div class="form-group">
+              <label for="name">お名前 <span style="color:#ef4444">*</span></label>
+              <input type="text" id="name" name="name" value="<%= h(form[:name]) %>" placeholder="山田 太郎" required>
+            </div>
+            <div class="form-group">
+              <label for="email">メールアドレス <span style="color:#ef4444">*</span></label>
+              <input type="email" id="email" name="email" value="<%= h(form[:email]) %>" placeholder="example@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">お問い合わせ内容 <span style="color:#ef4444">*</span></label>
+              <textarea id="message" name="message" placeholder="ご質問やご要望をご記入ください" required><%= h(form[:message]) %></textarea>
+            </div>
+            <div class="form-submit">
+              <button type="submit" class="btn btn-primary">送信する</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Sample LP. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

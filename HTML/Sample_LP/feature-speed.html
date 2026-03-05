@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高速・軽量 | サンプルLP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #0f0f12;
+      --color-surface: #1a1a1f;
+      --color-accent: #6366f1;
+      --color-accent-hover: #818cf8;
+      --color-text: #f4f4f5;
+      --color-text-muted: #a1a1aa;
+      --color-border: #27272a;
+      --radius: 12px;
+      --radius-lg: 20px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Noto Sans JP', 'Outfit', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg-gradient {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.25), transparent),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 0% 80%, rgba(139, 92, 246, 0.08), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .logo span { color: var(--color-accent); }
+    nav a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-left: 28px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--color-text); }
+    main { padding: 56px 0 100px; }
+    .detail-hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .detail-hero .icon {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, var(--color-accent), #8b5cf6);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      margin: 0 auto 24px;
+    }
+    .detail-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .detail-hero p {
+      color: var(--color-text-muted);
+      font-size: 1rem;
+    }
+    .detail-content h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 32px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .detail-content p {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .detail-content ul {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      margin: 12px 0 24px 24px;
+      line-height: 1.8;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 40px;
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--color-accent-hover); }
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+    }
+    footer p { color: var(--color-text-muted); font-size: 0.875rem; }
+  </style>
+</head>
+<body>
+  <div class="bg-gradient"></div>
+  <header>
+    <div class="container header-inner">
+      <div class="logo">Sample<span>LP</span></div>
+      <nav>
+        <a href="index.html">トップ</a>
+        <a href="index.html#features">特徴</a>
+        <a href="register.html">無料登録</a>
+        <a href="contact.html">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <div class="detail-hero">
+        <div class="icon">⚡</div>
+        <h1>高速・軽量</h1>
+        <p>ストレスフリーな速度で、毎日の作業がスムーズに</p>
+      </div>
+      <article class="detail-content">
+        <h2>なぜ「速さ」が大切か</h2>
+        <p>業務ツールのレスポンスが遅いと、操作のたびに待ち時間が発生し、集中が途切れます。当サービスは最初から「軽く、速く」を設計思想に据え、待ち時間を最小限に抑えています。</p>
+        <h2>主なポイント</h2>
+        <ul>
+          <li>画面の読み込み・切り替えが高速で、ストレスを感じません</li>
+          <li>サーバー側の処理も最適化され、大量データでも安定して動作</li>
+          <li>モバイルや低スペック環境でも快適にご利用いただけます</li>
+        </ul>
+        <h2>お客様の声</h2>
+        <p>「以前使っていたツールはクリックのたびに数秒待たされていましたが、こちらに乗り換えてから待ち時間がほぼなくなり、作業効率が格段に上がりました。」</p>
+        <a href="index.html#features" class="back-link">← 3つの特徴一覧に戻る</a>
+      </article>
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Sample LP. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
