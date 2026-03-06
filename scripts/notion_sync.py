@@ -75,6 +75,7 @@ def sync_action(
     action_name: str,
 ) -> None:
     summary = get_summary(language, action_name)
+    summary_text = (summary or "")[:2000]  # スライスを外に出すことで括弧の解釈エラーを回避
     # フォルダへのリンク（ブランチ名がない場合は main を使用）
     branch = ref_name or "main"
     folder_path = f"{language}/{action_name}".replace(" ", "%20")
@@ -107,7 +108,7 @@ def sync_action(
             "Language": {"rich_text": [{"text": {"content": language}}]},
             "Action Name": {"rich_text": [{"text": {"content": action_name}}]},
             "Last Updated": {"date": {"start": datetime.datetime.now().isoformat()}},
-            "Summary": {"rich_text": [{"text": {"content": summary[:2000]}]}},
+            "Summary": {"rich_text": [{"text": {"content": summary_text}}]},
             "GitHub Repo": {"url": github_url},
         }
     }
