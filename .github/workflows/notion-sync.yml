@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - ".github/**"
       - "scripts/**"
+      - "README.md"
 
 jobs:
   sync:
@@ -32,7 +33,7 @@ jobs:
             echo "First push: listing all language/action folders"
             find . -mindepth 2 -maxdepth 2 -type d ! -path './.git*' ! -path './*node_modules*' ! -path './.github*' ! -path './scripts*' | sed 's|^\./||' > changed.txt
           else
-            git diff --name-only "$BEFORE" "$AFTER" | grep -v '^\.github/' | grep -v '^scripts/' > changed.txt || true
+            git diff --name-only "$BEFORE" "$AFTER" | grep -v '^\.github/' | grep -v '^scripts/' | grep -v '^README\.md$' > changed.txt || true
           fi
           echo "changed<<EOF" >> "$GITHUB_OUTPUT"
           cat changed.txt >> "$GITHUB_OUTPUT"
