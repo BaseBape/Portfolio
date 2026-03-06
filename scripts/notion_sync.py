@@ -20,6 +20,19 @@ import datetime
 import requests
 
 
+def _notion_raise(r: requests.Response) -> None:
+    """Raise for status and on failure print Notion API error body for debugging."""
+    if not r.ok:
+        try:
+            body = r.json()
+            msg = body.get("message", r.text)
+            code = body.get("code", "")
+            print(f"Notion API error [{r.status_code}] {code}: {msg}")
+        except Exception:
+            print(f"Notion API error [{r.status_code}]: {r.text}")
+        r.raise_for_status()
+
+
 def require_env(name: str) -> str:
     value = os.getenv(name)
     if not value:
@@ -87,28 +100,42 @@ def sync_action(
         "Notion-Version": "2022-06-28",
     }
 
+    # Notion API: database_id はハイフンなしで指定する（URL・body 共通）
+    db_id = (database_id or "").replace("-", "")
+
     # 既存ページ検索: GitHub Repo（フォルダURL）で検索
     search_data = {
         "filter": {"property": "GitHub Repo", "url": {"equals": github_url}}
     }
 
     res = requests.post(
-        f"https://api.notion.com/v1/databases/{database_id}/query",
+        f"https://api.notion.com/v1/databases/{db_id}/query",
         headers=headers,
         json=search_data,
         timeout=30,
     )
-    res.raise_for_status()
+    _notion_raise(res)
     pages = res.json().get("results", [])
+
+    # Notion API: rich_text requires type "text" and text.content; empty content can cause 400.
+    def rich_text_item(content: str):
+        s = (content or " ").strip() or " "
+        return {"type": "text", "text": {"content": s[:2000], "link": None}}
+
+    # Date: ISO 8601 with UTC (Notion expects e.g. "2023-02-23" or "2023-02-23T12:00:00.000Z").
+    try:
+        now_utc = datetime.datetime.now(datetime.UTC).isoformat().replace("+00:00", "Z")
+    except AttributeError:
+        now_utc = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S.000Z")
 
     payload = {
         "properties": {
-            "Asset Name": {"title": [{"text": {"content": action_name}}]},
-            "Repository": {"rich_text": [{"text": {"content": repo_name}}]},
-            "Language": {"rich_text": [{"text": {"content": language}}]},
-            "Action Name": {"rich_text": [{"text": {"content": action_name}}]},
-            "Last Updated": {"date": {"start": datetime.datetime.now().isoformat()}},
-            "Summary": {"rich_text": [{"text": {"content": summary_text}}]},
+            "Asset Name": {"title": [{"type": "text", "text": {"content": action_name, "link": None}}]},
+            "Repository": {"rich_text": [rich_text_item(repo_name)]},
+            "Language": {"rich_text": [rich_text_item(language)]},
+            "Action Name": {"rich_text": [rich_text_item(action_name)]},
+            "Last Updated": {"date": {"start": now_utc}},
+            "Summary": {"rich_text": [rich_text_item(summary_text)]},
             "GitHub Repo": {"url": github_url},
         }
     }
@@ -121,17 +148,17 @@ def sync_action(
             json=payload,
             timeout=30,
         )
-        r.raise_for_status()
+        _notion_raise(r)
         print(f"Updated: {action_name}")
     else:
-        create_payload = {"parent": {"database_id": database_id}, **payload}
+        create_payload = {"parent": {"database_id": db_id}, **payload}
         r = requests.post(
             "https://api.notion.com/v1/pages",
             headers=headers,
             json=create_payload,
             timeout=30,
         )
-        r.raise_for_status()
+        _notion_raise(r)
         print(f"Created: {action_name}")
 
 
