@@ -8,9 +8,6 @@ Notion 同期: リポジトリ構成「言語名/動作名/ソースコード」
 
 Notion データベースに以下のプロパティが必要です:
   - Asset Name (タイトル): 動作名のみ（検索は GitHub Repo で行う）
-  - Repository (リッチテキスト): リポジトリ名
-  - Language (リッチテキスト): 言語名
-  - Action Name (リッチテキスト): 動作名
   - Last Updated (日付)
   - Summary (リッチテキスト)
   - GitHub Repo (URL): その動作のフォルダへのリンク（検索に使用）
@@ -76,16 +73,34 @@ def get_summary(language: str, action_name: str) -> str:
         return ""
 
 
+# プロパティ名のデフォルト（環境変数 NOTION_PROP_* で上書き可）
+DEFAULT_PROPS = {
+    "title": "Asset Name",
+    "last_updated": "Last Updated",
+    "summary": "Summary",
+    "github_repo": "GitHub Repo",
+}
+
+
+def _get_prop_names() -> dict[str, str]:
+    return {
+        "title": os.getenv("NOTION_PROP_TITLE", DEFAULT_PROPS["title"]),
+        "last_updated": os.getenv("NOTION_PROP_LAST_UPDATED", DEFAULT_PROPS["last_updated"]),
+        "summary": os.getenv("NOTION_PROP_SUMMARY", DEFAULT_PROPS["summary"]),
+        "github_repo": os.getenv("NOTION_PROP_GITHUB_REPO", DEFAULT_PROPS["github_repo"]),
+    }
+
+
 def sync_action(
     *,
     token: str,
     database_id: str,
-    repo_name: str,
     full_repo: str,
     server_url: str,
     ref_name: str,
     language: str,
     action_name: str,
+    props: dict[str, str],
 ) -> None:
     summary = get_summary(language, action_name)
     summary_text = (summary or "")[:2000]  # スライスを外に出すことで括弧の解釈エラーを回避
@@ -105,7 +120,7 @@ def sync_action(
 
     # 既存ページ検索: GitHub Repo（フォルダURL）で検索
     search_data = {
-        "filter": {"property": "GitHub Repo", "url": {"equals": github_url}}
+        "filter": {"property": props["github_repo"], "url": {"equals": github_url}}
     }
 
     res = requests.post(
@@ -130,13 +145,10 @@ def sync_action(
 
     payload = {
         "properties": {
-            "Asset Name": {"title": [{"type": "text", "text": {"content": action_name, "link": None}}]},
-            "Repository": {"rich_text": [rich_text_item(repo_name)]},
-            "Language": {"rich_text": [rich_text_item(language)]},
-            "Action Name": {"rich_text": [rich_text_item(action_name)]},
-            "Last Updated": {"date": {"start": now_utc}},
-            "Summary": {"rich_text": [rich_text_item(summary_text)]},
-            "GitHub Repo": {"url": github_url},
+            props["title"]: {"title": [{"type": "text", "text": {"content": action_name, "link": None}}]},
+            props["last_updated"]: {"date": {"start": now_utc}},
+            props["summary"]: {"rich_text": [rich_text_item(summary_text)]},
+            props["github_repo"]: {"url": github_url},
         }
     }
 
@@ -171,8 +183,8 @@ def main() -> None:
     if not full_repo:
         raise RuntimeError("Missing required env var: GITHUB_REPOSITORY")
 
-    repo_name = full_repo.split("/")[-1]
     ref_name = os.getenv("GITHUB_REF_NAME", "")  # ブランチ名
+    props = _get_prop_names()
 
     actions = get_changed_actions()
     if not actions:
@@ -185,12 +197,12 @@ def main() -> None:
         sync_action(
             token=token,
             database_id=database_id,
-            repo_name=repo_name,
             full_repo=full_repo,
             server_url=server_url,
             ref_name=ref_name,
             language=language,
             action_name=action_name,
+            props=props,
         )
 
 
