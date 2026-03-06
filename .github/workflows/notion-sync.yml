@@ -1,3 +1,5 @@
+# 更新のあった「言語名/動作名」のみ Notion に同期する
+# リポジトリ構成: リポジトリ > 言語名 > 動作名 > ソースコード
 name: Sync to Notion
 
 on:
@@ -10,10 +12,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BEFORE="${{ github.event.pull_request.base.sha }}"
+          else
+            BEFORE="${{ github.event.before }}"
+          fi
+          AFTER="${{ github.sha }}"
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
+            echo "First push: listing all language/action folders"
+            find . -mindepth 2 -maxdepth 2 -type d ! -path './.git*' ! -path './*node_modules*' | sed 's|^\./||' > changed.txt
+          else
+            git diff --name-only "$BEFORE" "$AFTER" > changed.txt || true
+          fi
+          echo "changed<<EOF" >> "$GITHUB_OUTPUT"
+          cat changed.txt >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "Files/dirs: $(wc -l < changed.txt)"
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
@@ -26,4 +50,6 @@ jobs:
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          CHANGED_FILES: ${{ steps.changed.outputs.changed }}
         run: python scripts/notion_sync.py
