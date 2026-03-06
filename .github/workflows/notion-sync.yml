@@ -6,6 +6,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - ".github/**"
+      - "scripts/**"
 
 jobs:
   sync:
@@ -27,9 +30,9 @@ jobs:
           AFTER="${{ github.sha }}"
           if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
             echo "First push: listing all language/action folders"
-            find . -mindepth 2 -maxdepth 2 -type d ! -path './.git*' ! -path './*node_modules*' | sed 's|^\./||' > changed.txt
+            find . -mindepth 2 -maxdepth 2 -type d ! -path './.git*' ! -path './*node_modules*' ! -path './.github*' ! -path './scripts*' | sed 's|^\./||' > changed.txt
           else
-            git diff --name-only "$BEFORE" "$AFTER" > changed.txt || true
+            git diff --name-only "$BEFORE" "$AFTER" | grep -v '^\.github/' | grep -v '^scripts/' > changed.txt || true
           fi
           echo "changed<<EOF" >> "$GITHUB_OUTPUT"
           cat changed.txt >> "$GITHUB_OUTPUT"
