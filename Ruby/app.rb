@@ -52,3 +52,4 @@ post "/contact" do
 
   redirect to("/?thanks=1")
 end
+
